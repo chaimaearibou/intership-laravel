@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Utilisateur;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,14 @@ class OffreFactory extends Factory
     public function definition(): array
     {
         return [
+            'titre' => $this->faker->jobTitle(),
+            'description' => $this->faker->paragraph(),
+            'localisation' => $this->faker->city(),
+            'duration' => $this->faker->numberBetween(1, 12), // Duration in months
+            'creer_par'=>Utilisateur::factory(), // Assuming you have a UtilisateurFactory
+            'creer_at' => $this->faker->dateTime(),
+            'date_debut' => $this->faker->date(),
+            'date_fin' => $this->faker->dateTimeBetween('now', '+1 year'), // Date between now and one year from now
             //
         ];
     }

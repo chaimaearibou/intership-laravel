@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Candidat_profile extends Model
+class CandidatProfile extends Model
 {
     /** @use HasFactory<\Database\Factories\CandidatProfileFactory> */
     use HasFactory;
+    protected $primaryKey = 'candidat_id'; 
+    public $incrementing = true;
+
     protected $fillable =[
-        'id_candidat',
+        'candidat_id',
         'nom_candidat',
         'prenom_candidat',
         'statut',
@@ -23,10 +26,10 @@ class Candidat_profile extends Model
 
     // un candiadat peut faire plusieur application
     public function application(): HasMany{
-        return $this->hasMany(Application::class, 'id_candidat', 'id_candidat');
+        return $this->hasMany(Application::class, 'candidat_id', 'candidat_id');
     }
     // un candidat appartient a un utilisateur
     public function utilisateur(): BelongsTo{
-        return $this->belongsTo(Utilisateur::class, 'id_candidat', 'id');
+        return $this->belongsTo(Utilisateur::class, 'utilisateur_id', 'utilisateur_id');
     }
 }

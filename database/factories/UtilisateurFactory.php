@@ -17,7 +17,12 @@ class UtilisateurFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nom' => $this->faker->lastName(),
+            'prenom' => $this->faker->firstName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'mot_de_passe' => bcrypt('password'), // Password is hashed
+            'role' => $this->faker->randomElement(['admin', 'interne']),
+        
         ];
     }
 }

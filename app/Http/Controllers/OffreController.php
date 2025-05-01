@@ -10,9 +10,14 @@ class OffreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index()    //* fonction qui afficher tous les offre 
     {
-        //
+        $offres = Offre::where('date_fin', '>', now())
+        ->orderBy('date_debut', 'desc')
+        ->paginate(20);
+               ;
+        return view('pages.offre',compact('offres'));
     }
 
     /**
@@ -36,7 +41,7 @@ class OffreController extends Controller
      */
     public function show(Offre $offre)
     {
-        //
+        return view('pages.show_offre', compact('offre')); // ✅ Show one offre
     }
 
     /**

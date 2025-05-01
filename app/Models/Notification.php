@@ -10,16 +10,20 @@ class Notification extends Model
 {
     /** @use HasFactory<\Database\Factories\NotificationFactory> */
     use HasFactory;
+    protected $primaryKey = 'notification_id'; 
+    public $incrementing = true;
+
     protected $fillable = [
-       'id_notification',
+       'notification_id',
         'message',
         'type',
-        'seen',
+        'lue',
     ];
 
     // un utilisateur recevoir plusieur notification
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(Utilisateur::class, 'id_utilisateur', 'id');
+        return $this->belongsTo(Utilisateur::class, 'utilisateur_id', 'id');
     }
+    
 }

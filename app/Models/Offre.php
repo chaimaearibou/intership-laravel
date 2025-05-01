@@ -11,8 +11,10 @@ class Offre extends Model
 {
     /** @use HasFactory<\Database\Factories\OffreFactory> */
     use HasFactory;
+    protected $primaryKey = 'offre_id'; 
+    public $incrementing = true;
     protected $fillable = [
-        'id_offre',
+        'offre_id',
         'titre',
         'description',
         'localisation',
@@ -26,12 +28,12 @@ class Offre extends Model
     // un offre recevoir plusier application 
     public function application(): HasMany
     {
-        return $this->hasMany(Application::class, 'id_offre', 'id');
+        return $this->hasMany(Application::class, 'offre_id', 'offre_id');
     }
     // un offre creer par un utilisateur de role admin 
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(Utilisateur::class, 'creer_par', 'id');
+        return $this->belongsTo(Utilisateur::class, 'creer_par', 'creer_par');
     }
     
 }

@@ -12,14 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
+            $table->id('notification_id');
+            $table->string('message');
+            $table->enum('type', ['info', 'warning', 'error'])->default('info');
+            $table->boolean('lue')->default(false);
+            $table->foreignId('utilisateur_id')->constrained('utilisateurs', 'utilisateur_id')->onDelete('cascade');
+            $table->foreignId('application_id')->nullable()->constrained('applications', 'application_id')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('notifications');
