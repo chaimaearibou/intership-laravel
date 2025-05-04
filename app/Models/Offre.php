@@ -33,7 +33,7 @@ class Offre extends Model
     // un offre creer par un utilisateur de role admin 
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(Utilisateur::class, 'creer_par', 'creer_par');
+        return $this->belongsTo(Utilisateur::class, 'creer_par', 'utilisateur_id');
     }
     
 }

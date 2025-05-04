@@ -15,7 +15,7 @@
                     <p class="lead mb-4">
                         Discover top offers tailored for students and interns.
                     </p>
-                    <a href="#" class="btn btn-apply-now btn-lg px-5 py-3">
+                    <a href="{{ route('offre') }}" class="btn btn-apply-now btn-lg px-5 py-3">
                         Apply Now <i class="fas fa-arrow-right ms-2"></i>
                     </a>
                 </div>
@@ -37,7 +37,7 @@
 
 <!-- about us  Section -->
 <section class="about-section" id="about">
-    <div class="decorative-circle"></div>
+    {{-- <div class="decorative-circle"></div> --}}
     
     <div class="container" >
         <!-- Section Titre + Description -->
@@ -96,7 +96,7 @@
 <!-- service Section -->
 <section class="services-section py-5" id="service">
     <div class="container">
-        <h2 class="section-title mb-5">Our Services</h2>
+        <h2 class="section-title mb-5" style="text-align: center !important;">Our Services</h2>
         
         <div class="row g-4 justify-content-center">
             <!-- Card 1 -->
@@ -149,12 +149,33 @@
             </a>
         </div>
     </div>
+     {{-- * back to top of the page button  --}}
+     <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 </section>
+@push('scripts')
+<script>
+    // fonction qui afficher le button de back to top 
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 420) {
+        backToTopBtn.style.display = 'block';
+    } else {
+        backToTopBtn.style.display = 'none';
+    }
+});
 
-        
-
-
-
+backToTopBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+                 
+</script>
+@endpush
 @endsection 
 
  

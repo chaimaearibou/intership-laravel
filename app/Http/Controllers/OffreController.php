@@ -11,14 +11,38 @@ class OffreController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()    //* fonction qui afficher tous les offre 
+    public function index(Request $request)    //* fonction qui afficher tous les offre 
     {
-        $offres = Offre::where('date_fin', '>', now())
-        ->orderBy('date_debut', 'desc')
-        ->paginate(20);
-               ;
-        return view('pages.offre',compact('offres'));
+        $query = Offre::query();
+
+        // Apply filters
+        if ($request->filled('search')) {
+            $query->where('titre', 'like', '%' . $request->search . '%');
+        }
+    
+        if ($request->filled('localisation')) {
+            $query->where('localisation', $request->localisation);
+        }
+    
+        if ($request->filled('duration')) {
+            $query->where('duration', $request->duration);
+        }
+    
+        // Optional sorting
+        $query->orderBy('date_debut', 'desc');
+    
+        // Pagination
+        $offres = $query->paginate(9)->withQueryString(); // keep filters in pagination links
+    
+        // Get unique values for filters
+        $localisations = Offre::select('localisation')->distinct()->pluck('localisation');
+        $durations = Offre::select('duration')->distinct()->pluck('duration');
+
+
+        
+        return view('pages.offre',compact('offres','localisations','durations')); //  Show all offres
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -41,7 +65,7 @@ class OffreController extends Controller
      */
     public function show(Offre $offre)
     {
-        return view('pages.show_offre', compact('offre')); // ✅ Show one offre
+        return view('pages.offre_details', compact('offre')); //  Show one offre
     }
 
     /**

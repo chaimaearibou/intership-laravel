@@ -4,6 +4,7 @@
 @import "./nav.css";
 @import "./home.css";
 @import "./offre.css";
+@import './admin/admin.css';
 
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

@@ -192,10 +192,10 @@
     }
 }
 /* ! our service style */
-/* Services Section */
 .services-section {
     position: relative;
     overflow: hidden;
+    /* display: flex; */
 }
 
 .section-title {
@@ -204,6 +204,8 @@
     color: #1C4670;
     text-align: center;
     position: relative;
+    /* justify-content: center; */
+    
 }
 
 .section-title::after {

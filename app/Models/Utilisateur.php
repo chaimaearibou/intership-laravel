@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\CandidatProfile;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Utilisateur extends Model
 {
@@ -30,7 +31,7 @@ class Utilisateur extends Model
     // un utilisateur  de role interne a un seule candidate profile
     public function candidat_profile(): HasOne
     {
-        return $this->hasOne(Candidat_profile::class, 'utilisateur_id', 'utilisateur_id');
+        return $this->hasOne(CandidatProfile::class, 'utilisateur_id', 'utilisateur_id');
     }
     // un utilisateur de role admin peut gerrer plusieur application
    public function apllication(): HasMany

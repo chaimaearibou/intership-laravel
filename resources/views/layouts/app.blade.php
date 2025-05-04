@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- <link rel="icon" href="{{ asset('images/logo2.png') }}" type="image/x-icon"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     {{-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"> --}}
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Gestion de stagaire</title>
+    <title>Gestion de stagaire-{{ config('app.name', 'Gestion de Stage') }}</title>
 </head>
 <body>
    <!-- Navbar -->
@@ -37,6 +36,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link link" href="{{ route('contact') }}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link" href="{{ route('dasbordAdmin') }}">admin</a>
           </li>
         </ul>
         <form class="d-flex" >
@@ -104,7 +106,7 @@
 </footer>
 <!-- ========== END FOOTER ========== -->
 
- 
+ @stack('scripts')
     
 
 </body>
