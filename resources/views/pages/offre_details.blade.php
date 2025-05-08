@@ -5,7 +5,7 @@
     <!-- Header -->
     <div class="container">
         <div class="offer-header">
-            <a href="{{ route('offre') }}" class="btn-back">
+            <a href="{{ route('offre') }}" class="btn-back mt-3">
                 <i class="fas fa-chevron-left"></i> Back to Offers
             </a>
             <h1 class="offer-main-title">{{ $offre->titre }}</h1>
@@ -16,7 +16,7 @@
                 </span>
                 <span class="meta-badge duration-badge">
                     <i class="fas fa-clock icon-accent"></i>
-                    {{ $offre->duration }} days
+                    {{ $offre->duration }} Month
                 </span>
             </div>
         </div>
@@ -42,7 +42,8 @@
 
             <article class="offer-description-card">
                 <h2 class="description-title">Opportunity Details</h2>
-                <p class="offre-description">{{ $offre->description }}</p>
+                <p class="offre-description">{{ $offre->description}} 
+                </p>
             </article>
             <article class="offer-description-card">
                 <h2 class="description-title">Type</h2>

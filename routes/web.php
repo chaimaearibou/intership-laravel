@@ -13,7 +13,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // * la route qui  afficher tous les offres
 Route::get('/offre',[OffreController::class,'index'])->name('offre');
 // * la route qui afficher one offer /show
-Route::get('/offre/{id}',[OffreController::class,'show'])->name('offres.show');
+Route::get('/offre/{offre}',[OffreController::class,'show'])->name('offres.show');
 // * la route qui retourne la page de dasborf admin
 Route::get('/dashbord',[UtilisateurController::class,'index'])->name('dasbordAdmin');
 //* la roote qui retourne la page offreadmin / index
@@ -40,3 +40,9 @@ Route::delete('/candidat/{candidat_profile}',[CandidatProfileController::class,'
 Route::get('/applications/{application}',[ApplicationController::class,'show'])->name('applications.show');
 // * la route pour application destroy 
 Route::delete('/applications/{application}',[ApplicationController::class,'destroy'])->name('applications.destroy');
+
+
+// ! la route qui retourne la page de login 
+Route::get('/login',function () {
+    return view('auth_form.login');
+})->name('show.login');

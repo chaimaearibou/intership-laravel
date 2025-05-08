@@ -18,13 +18,17 @@ class CandidatProfileFactory extends Factory
 
     public function definition(): array
     {
+        $utilisateur = Utilisateur::factory()->create([
+            'role' => 'interne',
+        ]);
+    
         return [
-            'nom_candidat' => $this->faker->lastName(),
-            'prenom_candidat' => $this->faker->firstName(),
+            'nom_candidat' => $utilisateur->nom,
+            'prenom_candidat' => $utilisateur->prenom,
             'number' => $this->faker->phoneNumber(),
             'statut' => $this->faker->randomElement(['actif', 'inactif']),
-            'utilisateur_id'=>Utilisateur::factory(), // Assuming you have a UtilisateurFactory
-            'photo' => $this->faker->imageUrl(640, 480, 'people', true, 'Faker'),
+            'utilisateur_id' => $utilisateur->utilisateur_id,
+            'photo' => 'https://i.pravatar.cc/300?img=' . rand(1, 70),
         ];
     }
 }

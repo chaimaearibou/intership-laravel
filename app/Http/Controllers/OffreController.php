@@ -42,7 +42,6 @@ class OffreController extends Controller
         $durations = Offre::select('duration')->distinct()->pluck('duration');
 
 
-        
         return view('pages.offre',compact('offres','localisations','durations')); //  Show all offres
     }
 

@@ -73,12 +73,12 @@
                     <td>{{ $application->applied_at}}</td> 
                     <td>    
                         <div class="btn-group">
-                            <a href="{{ asset('storage/'.$application->cv) }}" 
+                            <a href="{{ asset('storage/' . $application->cv) }}" 
                                class="btn btn-sm btn-outline-primary"
                                target="_blank">
                                 <i class="bi bi-file-pdf"></i> CV
                             </a>
-                            <a href="{{ asset('storage/'.$application->lettre_motivation) }}" 
+                            <a href="{{ asset('storage/' . $application->lettre_motivation) }}" 
                                class="btn btn-sm btn-outline-secondary"
                                target="_blank">
                                 <i class="bi bi-file-text"></i> Letter
