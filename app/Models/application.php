@@ -11,12 +11,16 @@ class application extends Model
 {
     /** @use HasFactory<\Database\Factories\ApplicationFactory> */
     use HasFactory;
-    protected $primaryKey = 'id_application'; 
+    protected $primaryKey = 'application_id'; 
     public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable =[
-        'id_application',
+        'application_id',   
         'statut',
-        'applied_at'
+        'applied_at',
+        'cv',
+        'lettre_motivation',
     ];
 
     // *un application peut gerrer par plusieru utilisateur de role admine
@@ -30,7 +34,7 @@ class application extends Model
     }
     //* un andidat peut faire plusieur application
     public function candidat():BelongsTo{
-        return $this->belongsTo(Candidat_profile::class, 'candidat_id', 'candidat_id');
+        return $this->belongsTo(CandidatProfile::class, 'candidat_id', 'candidat_id');
     }
 
 }

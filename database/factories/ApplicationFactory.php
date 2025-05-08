@@ -21,11 +21,13 @@ class ApplicationFactory extends Factory
     public function definition(): array
     {
         return [
-            'statut' => $this->faker->randomElement(['en_attente', 'accepte', 'refuse']),
+            'statut' => $this->faker->randomElement(['pending', 'accept', 'refuse']),
             'applied_at' => $this->faker->dateTime(),
             'candidat_id'=>CandidatProfile::factory(), // Assuming you have a CandidateProfileFactory
             'offre_id'=>Offre::factory(),
             'utilisateur_id'=>Utilisateur::factory(),
+            'cv' => $this->faker->filePath(), // Assuming you have a method to generate a file path
+            'lettre_motivation' => $this->faker->filePath(), // Assuming you have a method to generate a file path
         ];
     }
 }

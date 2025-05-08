@@ -18,10 +18,9 @@ class CandidatProfile extends Model
         'candidat_id',
         'nom_candidat',
         'prenom_candidat',
-        'statut',
         'number',
-        'cv',
-        'lettre_motivation',
+        'statut',
+        'photo'
     ];
 
     // un candiadat peut faire plusieur application

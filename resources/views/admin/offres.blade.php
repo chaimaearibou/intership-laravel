@@ -1,1 +1,0 @@
-{{-- !  liste of  all les offres --}}

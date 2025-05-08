@@ -26,7 +26,7 @@
                         <option value="">Any Duration</option>
                         @foreach ($offres->unique('duration') as $offre)
                             <option value="{{ $offre->duration }}" {{ request('duration') == $offre->duration ? 'selected' : '' }}>
-                                {{ $offre->duration }} days
+                                {{ $offre->duration }} month
                             </option>
                         @endforeach
                     </select>
@@ -50,7 +50,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h2 class="offre-titre">{{ $offre->titre }}</h2>
-                            <span class="offre-duree">{{ $offre->duration }} days</span>
+                            <span class="offre-duree">{{ $offre->duration }} Month</span>
                         </div>
                         <div class="offre-localisation">
                             <i class="fas fa-map-marker-alt icon-accent"></i>

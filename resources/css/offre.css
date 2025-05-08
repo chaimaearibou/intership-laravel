@@ -7,7 +7,7 @@
 }
 
 .section-title-offre {
-    color: #1C4670;
+    color: #1C4670 !important;
     font-size: 2.5rem;
     font-weight: 700;
     letter-spacing: -0.5px;
@@ -20,7 +20,7 @@
 .header-divider {
     width: 100px;
     height: 4px;
-    background: #1C4670;
+    background: #1C4670 !important;
     margin: 1.5rem auto;
     border-radius: 4px;
     opacity: 0.8;
@@ -256,7 +256,7 @@
 .date-card {
     width: 48%;
     padding: 15px;
-    background-color: #30a7d611;
+    background-color: #30a7d611 !important;
     border-left: 5px solid #30a7d6;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -317,11 +317,10 @@
 }
 
 .back-to-top:hover {
-    background-color: #1b6785;
+    background-color: #FFB200;
 }
 
 /* ! offre filter style */
-/* Style modernisé */
 .filter-form {
     max-width: 1200px;
     margin: 2rem auto;

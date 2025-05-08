@@ -1,0 +1,237 @@
+/* public/css/dashboard.css */
+:root {
+    --primary: #1C4670;
+    --secondary: #278AB0;
+    --accent: #1DC690;
+    --light: #F8F9FA;
+    --dark: #2D3748;
+}
+
+.dashboard-container {
+    padding: 2rem;
+    background-color: var(--light);
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    color: var(--primary) !important;
+    font-weight: 700;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.dashboard-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+}
+
+.card{
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(28, 70, 112, 0.08);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(28, 70, 112, 0.15);
+}
+
+.bg-primary { 
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.bg-success { 
+    background: linear-gradient(135deg, var(--accent) 0%, #1a9f7b 100%);
+}
+
+.bg-info { 
+    background: linear-gradient(135deg, var(--secondary) 0%, #2c6a8a 100%);
+}
+
+.bg-warning { 
+    background: linear-gradient(135deg, #f59e0b 0%, #e67e22 100%);
+}
+
+.card-body {
+    padding: 1.75rem;
+}
+
+.card-body h5 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.card-body h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.recent-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(28, 70, 112, 0.08);
+}
+
+.card-headere {
+    background: var(--primary) !important;
+    color: white !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem 1.75rem;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid rgba(28, 70, 112, 0.08);
+    padding: 1.25rem 1.75rem;
+    transition: background 0.2s ease;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.list-group-item:hover {
+    background: rgba(28, 70, 112, 0.03);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(28, 70, 112, 0.08);
+    margin: 3rem auto;
+    max-width: 800px;
+    position: relative;
+}
+
+.chart-container::before {
+    content: '📊 Analytics';
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: white;
+    padding: 0 1rem;
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1.5rem;
+    }
+    
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body h3 {
+        font-size: 2rem;
+    }
+    
+    .chart-container {
+        padding: 1.5rem;
+        margin: 2rem auto;
+    }
+    
+    .chart-container::before {
+        top: -12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animation for chart loading */
+@keyframes chartEntrance {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-container canvas {
+    animation: chartEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* public/css/dashboard.css */
+.export-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    justify-content: center;
+}
+
+.btn-export {
+    position: relative;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: white !important;
+    overflow: hidden;
+}
+.btn-export:hover{
+    background-color: #38a07c;
+}
+
+
+.btn-export i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-export:hover i {
+    transform: translateX(3px);
+}
+
+.btn-export-applications {
+    background: #328E6E;
+}
+
+.btn-export-offers {
+    background:#328E6E;
+}
+
+.btn-export-candidates {
+    background:#328E6E;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .export-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-export {
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+    }
+}

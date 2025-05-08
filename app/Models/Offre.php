@@ -23,6 +23,7 @@ class Offre extends Model
         'creer_at',
         'date_debut',
         'date_fin',
+        'type',
     ];
 
     // un offre recevoir plusier application 

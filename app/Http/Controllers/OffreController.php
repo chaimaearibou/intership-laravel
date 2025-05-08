@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offre;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Http\Requests\Offrerequest;
+use Illuminate\Http\RedirectResponse;
 
 class OffreController extends Controller
 {
@@ -42,23 +45,25 @@ class OffreController extends Controller
         
         return view('pages.offre',compact('offres','localisations','durations')); //  Show all offres
     }
-    
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
-        //
+        return view('admin.offre.create_offre');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Offrerequest $request)
     {
-        //
+        // dd($request->all());
+       Offre::create($request->validated());
+       return redirect()->route('offreAdmin')->with('success','offre created successfully'); //  rediriger la page  view/admin/offre/offreAd,in avec un message de success
     }
+   
 
     /**
      * Display the specified resource.
@@ -71,24 +76,33 @@ class OffreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Offre $offre)
+    public function edit(Offre $offre):View
     {
-        //
+        return view('admin.offre.edite', compact('offre')); //  Show edit offre page
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Offre $offre)
+    public function update(Offrerequest $request, Offre $offre):RedirectResponse
     {
-        //
+       $offre->update($request->validated());
+       return redirect()->route('offreAdmin')->with('success','offre updated successfully'); //  rediriger la page  view/admin/offre/offreAdmin avec un message de success
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Offre $offre)
     {
-        //
+        $offre->delete();
+        return redirect()->route('offreAdmin')->with('success','offre deleted successfully'); 
+
+    }
+    // retourne tous les offre 
+    public function indexAdmin()
+    {
+        $offres = Offre::all(); 
+        return view('admin.offre.offreAdmin',compact('offres')); 
     }
 }

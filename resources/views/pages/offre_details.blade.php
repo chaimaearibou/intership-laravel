@@ -44,6 +44,10 @@
                 <h2 class="description-title">Opportunity Details</h2>
                 <p class="offre-description">{{ $offre->description }}</p>
             </article>
+            <article class="offer-description-card">
+                <h2 class="description-title">Type</h2>
+                <p class="offre-description">{{ $offre->type }}</p>
+            </article>
 
             <div class="offer-action-footer">
                 <div class="poster-info">
@@ -51,7 +55,7 @@
                         Posted by {{ $offre->utilisateur?->nom }} {{ $offre->utilisateur?->prenom }}
                     </span>
                     <time class="posted-at">
-                        {{ \Carbon\Carbon::parse($offre->creer_at)->format('M d Y H:i') }}
+                       on {{ \Carbon\Carbon::parse($offre->creer_at)->format('M d Y H:i') }}
                     </time>
                 </div>
                 <button class="btn-postuler">

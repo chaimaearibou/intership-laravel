@@ -1,0 +1,114 @@
+.status-select.pending {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.status-select.accept {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.status-select.refuse {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.status-select {
+    transition: all 0.3s ease;
+}
+.status-select:hover {
+   cursor: pointer;
+}
+
+/* !Application details css */
+/* application-details.css */
+.application-details-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 15px;
+}
+
+.detail-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.detail-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.detail-section h5 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.candidate-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.candidate-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #dfe6e9;
+}
+
+.offer-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.offer-meta p {
+    margin: 0.5rem 0;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.document-buttons .btn {
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+
+.document-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.8em;
+}
+
+/* Status-specific colors */
+.badge-pending { background-color: #f39c12; }
+.badge-accept { background-color: #2ecc71; }
+.badge-refuse { background-color: #e74c3c; }
+
+@media (max-width: 768px) {
+    .candidate-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .offer-meta {
+        grid-template-columns: 1fr;
+    }
+}

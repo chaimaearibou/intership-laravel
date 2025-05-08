@@ -57,7 +57,7 @@
         <!-- Recent Applications -->
         <div class="col-md-6">
             <div class="card mb-4">
-                <div class="card-headere">Recent Applications</div>
+                <div class="card-header">Recent Applications</div>
                 <ul class="list-group list-group-flush">
                     @forelse ($recentApplications as $app)
                         <li class="list-group-item">
@@ -76,7 +76,7 @@
         <!-- Recent Offers -->
         <div class="col-md-6">
             <div class="card mb-4">
-                <div class="card-headere">Recent Offers</div>
+                <div class="card-header">Recent Offers</div>
                 <ul class="list-group list-group-flush">
                     @forelse ($recentOffers as $offer)
                         <li class="list-group-item">
@@ -100,5 +100,3 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {!! $chart->script() !!}
 </div>
-
-@endsection

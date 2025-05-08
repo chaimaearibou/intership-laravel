@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offre;
+use App\Models\application;
 use App\Models\Utilisateur;
 use Illuminate\Http\Request;
+use App\Models\CandidatProfile;
+use App\Charts\ApplicationsChart;
 
 class UtilisateurController extends Controller
 {
@@ -12,7 +16,27 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin');
+        $totalOffers = Offre::count();
+        $totalApplications = application::count();
+        $totalCandidates = CandidatProfile::count();
+        $pendingApplications = Application::where('statut', 'pending')->count();
+    
+        $recentApplications = Application::with(['candidat', 'offre'])
+                                    ->orderByDesc('applied_at')
+                                    ->limit(5)->get();
+    
+        $recentOffers = Offre::orderByDesc('creer_at')->limit(5)->get();
+        $chart = new ApplicationsChart();
+    
+        return view('admin.dashbord', compact(
+            'totalOffers',
+            'totalApplications',
+            'totalCandidates',
+            'pendingApplications',
+            'recentApplications',
+            'recentOffers',
+            'chart'
+        ));
     }
 
     /**

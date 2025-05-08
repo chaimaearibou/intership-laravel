@@ -2,22 +2,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
 }
 
 .admin-container {
-    display: grid;
-    grid-template-columns: 250px 1fr;
+    /* display: grid; */
+    /* grid-template-columns: 250px 1fr; */
     min-height: 100vh;
+
 }
 
-/* Sidebar */
+/*? Sidebar */
 .admin-sidebar {
-    background: #2c3e50;
+    background: #1C4670;
     color: white;
     padding: 20px;
     position: fixed;
-    width: 250px;
+    width: 240px;
     height: 100%;
 }
 
@@ -25,7 +25,7 @@
     font-size: 1.5rem;
     margin-bottom: 2rem;
     padding: 10px;
-    border-bottom: 1px solid #5c80a3;
+    border-bottom: 2px solid #5c80a3;
 }
 
 .nav-admin li {
@@ -33,9 +33,9 @@
     margin: 15px 0;
 }
 .nav-admin a {
-    color: #bdc3c7;
+    color: #d9dde0;
     text-decoration: none;
-    padding: 10px;
+    padding: 10px;      
     display: block;
     border-radius: 5px;
     transition: all 0.3s;
@@ -48,8 +48,8 @@
 
 /*! Main Content => the log out button and the titre section */  
 .admin-header {
-    background: transparent;
-    width: calc(100% - 250px);
+    background: white;
+    width: calc(100% - 240px);
     position: fixed;
     top: 0;
     right: 0;
@@ -121,23 +121,72 @@
     font-size: xx-large;
     text-transform: capitalize;
 }
-
-
-
 /* !Footer */
 .admin-footer {
-    background: #2c3e50;
+    background: #1C4670;
     color: white;
     padding: 20px;
-    text-align: center;
-    margin-top: auto;
     position: fixed;
     bottom:0;
     width: 100%;
-    height: 60px;
+    height: 50px;
+    border-top:1px solid #5c80a3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
+/* ! admin content css */
+.admin-content {
+    margin-top: 70px; /* Hauteur du header */
+    margin-bottom: 50px; /* Hauteur du footer */
+    min-height: calc(100vh - 120px); /* 70px header + 50px footer */
+}
 
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .admin-content {
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 1.5rem;
+    }
+}
 
+/* Pour les écrans larges avec sidebar */
+@media (min-width: 769px) {
+    .admin-content {
+        margin-left: 260px; /* Largeur sidebar + 20px */
+        margin-right: 20px;
+    }
+}
+
+/* Quand la sidebar est collapsed */
+.admin-sidebar.collapsed + .admin-main .admin-content {
+    margin-left: 40px;
+    transition: margin 0.3s ease;    
+}
+
+/* Scroll personnalisé si nécessaire */
+.admin-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.admin-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.admin-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+/* !  ameliaration pur le header et footer */
+.admin-header {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.admin-footer {
+    z-index: 1000;
+}
 
 

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id('candidat_id');
             $table->string('nom_candidat');
             $table->string('prenom_candidat');
-            $table->enum('statut', ['en_attente', 'accepte', 'refuse'])->default('en_attente');
             $table->string('number');
-            $table->string('cv');
-            $table->string('lettre_motivation');
+            $table->enum('statut', ['actif', 'inactif'])->default('actif');
+            $table->string('photo');
+
             $table->foreignId('utilisateur_id')->nullable()->constrained('utilisateurs', 'utilisateur_id')->onDelete('cascade');
             // $table->foreignId('id_application')->nullable()->constrained('applications', 'id_application')->onDelete('cascade');
 

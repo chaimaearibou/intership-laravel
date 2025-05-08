@@ -19,8 +19,9 @@ return new class extends Migration
             $table->integer('duration');
             $table->foreignId('creer_par')->constrained('utilisateurs','utilisateur_id')->onDelete('cascade');
             $table->timestamp('creer_at')->useCurrent();
-            $table->date('date_debut');
+            $table->date('date_debut'); 
             $table->date('date_fin');
+            $table->string('type');
             // $table->foreignId('id_application')->nullable()->constrained('applications', 'id_application')->onDelete('cascade');
 
             $table->timestamps();

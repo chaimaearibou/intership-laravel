@@ -21,11 +21,10 @@ class CandidatProfileFactory extends Factory
         return [
             'nom_candidat' => $this->faker->lastName(),
             'prenom_candidat' => $this->faker->firstName(),
-            'statut' => $this->faker->randomElement(['en_attente', 'accepte', 'refuse']),
             'number' => $this->faker->phoneNumber(),
-            'cv' => $this->faker->filePath(), // Assuming you have a method to generate a file path
-            'lettre_motivation' => $this->faker->filePath(), // Assuming you have a method to generate a file path
+            'statut' => $this->faker->randomElement(['actif', 'inactif']),
             'utilisateur_id'=>Utilisateur::factory(), // Assuming you have a UtilisateurFactory
+            'photo' => $this->faker->imageUrl(640, 480, 'people', true, 'Faker'),
         ];
     }
 }

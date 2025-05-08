@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id('application_id');
             $table->string('statut');
+            $table->string('cv');   // i remove this from the candidat_profile table and i set here for clarification
+            $table->string('lettre_motivation');  // i remove this from the candidat_profile table and i set here for clarification
             $table->date('applied_at');
             $table->foreignId('candidat_id')->constrained('candidat_profiles', 'candidat_id')->onDelete('cascade');
             $table->foreignId('offre_id')->constrained('offres', 'offre_id')->onDelete('cascade');
