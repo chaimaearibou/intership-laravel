@@ -10,7 +10,7 @@ use App\Models\Utilisateur;
 use App\Models\Notification;
 use App\Models\CandidatProfile;
 use Illuminate\Database\Seeder;
-use App\Models\Candidat_profile;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,23 +19,45 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-   // This will create 2 admins and 3 internes as per your factory logic
-    Utilisateur::factory()->count(5)->create();
-
-    // Get one admin to be used as the creator of offers
-    $admin = Utilisateur::where('role', 'admin')->first();
-
-    // Create offers and assign to that admin
-    if ($admin) {
-        // Create 5 offers and assign to the admin
-        Offre::factory()->count(5)->create([
-            'creer_par' => $admin->utilisateur_id, 
+  // ✅ Create fixed admin
+        $admin = Utilisateur::create([
+            'nom' => 'Admin',
+            'prenom' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
         ]);
-    }
+
+        // ✅ Create fixed interne
+        $interne = Utilisateur::create([
+            'nom' => 'Interne',
+            'prenom' => 'User',
+            'email' => 'user@example.com',
+            'password' => Hash::make('user123'),
+            'role' => 'interne',
+        ]);
+
+        // Create 5 more internes
+        $internes = Utilisateur::factory(5)->create();
+
+        // Create CandidatProfiles for each interne
+        foreach ($internes->concat([$interne]) as $utilisateur) {
+    CandidatProfile::factory()->create([
+        'utilisateur_id' => $utilisateur->utilisateur_id,
+        'nom_candidat' => $utilisateur->nom,
+        'prenom_candidat' => $utilisateur->prenom,
+    ]);
+}
+
+
+        // Create 5 offers and assign to the fixed admin
+        Offre::factory()->count(5)->create([
+            'creer_par' => $admin->utilisateur_id,
+        ]);
 
     // Other data
-    Application::factory()->count(10)->create();
-    CandidatProfile::factory()->count(10)->create();
-    Notification::factory()->count(15)->create();
+    Application::factory()->count(5)->create();
+    // CandidatProfile::factory()->count(5)->create();
+    Notification::factory()->count(5)->create();
     }
 }

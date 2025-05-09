@@ -4,14 +4,16 @@ namespace App\Models;
 
 use App\Models\CandidatProfile;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class Utilisateur extends Model
+class Utilisateur extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UtilisateurFactory> */
     use HasFactory;
+    // use Authenticatable;
+
     protected $primaryKey = 'utilisateur_id'; 
     public $incrementing = true;
     protected $fillable = [
@@ -19,9 +21,12 @@ class Utilisateur extends Model
         'nom',
         'prenom',
         'email',
-        'mot_de_passe',
+        'password',
         'role',
     ];
+
+     protected $hidden = ['password', 'remember_token'];
+    
 
     // un utilisateur de role admin ou intern recevoir plusieur notification
     public function Notification(): HasMany

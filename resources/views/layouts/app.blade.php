@@ -34,12 +34,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link link" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link link" href="{{ url('#about') }}">About</a></li>
-                    <li class="nav-item"><a class="nav-link link" href="{{ url('#service') }}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link link" href="{{ url('/#about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link link" href="{{ url('/#service') }}">Services</a></li>
                     <li class="nav-item"><a class="nav-link link" href="{{ route('offre') }}">Offre</a></li>
                     <li class="nav-item"><a class="nav-link link" href="{{ route('dasbordAdmin') }}">admin</a></li>
                     <li class="nav-item ms-2"><a href="{{ route('show.login') }}" class="btn btn-outline-success">Login</a></li>
-                    <li class="nav-item ms-2"><a href="#" class="btn btn-success">Register</a></li>
+                    <li class="nav-item ms-2"><a href="{{ route('show.register') }}" class="btn btn-success">Register</a></li>
                 </ul>
             </div>
         </div>

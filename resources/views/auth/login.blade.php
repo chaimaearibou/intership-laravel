@@ -113,14 +113,21 @@
     </style>
 </head>
 <body>
+
     <div class="container">
         <h2>Login</h2>
 
-        @if(session('error'))
-            <div class="error">{{ session('error') }}</div>
-        @endif
+       @if ($errors->any())
+    <div class="error">
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
 
-        <form method="POST" action="/login">
+
+        <form method="POST" action="{{ route('login') }}">
+            {{-- CSRF Token --}}
             @csrf
             <div>
                 <label>Email:</label>
@@ -135,7 +142,7 @@
             <button type="submit">Login</button>
         </form>
 
-        <p>Don’t have an account? <a href="/register">Register here</a></p>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
     </div>
 </body>
 </html>

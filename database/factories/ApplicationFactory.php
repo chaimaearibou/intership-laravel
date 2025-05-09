@@ -20,23 +20,35 @@ class ApplicationFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        $cvName = 'cv_' . Str::random(10) . '.pdf';
-        Storage::disk('public')->put("cv/$cvName", 'Fake CV content');
-    
-        // Generate fake Lettre de motivation
-        $lettreName = 'lettre_' . Str::random(10) . '.pdf';
-        Storage::disk('public')->put("lettres/$lettreName", 'Fake lettre content');
-        
-        return [
-            'statut' => $this->faker->randomElement(['pending', 'accept', 'refuse']),
-            'applied_at' => $this->faker->dateTime(),
-            'candidat_id'=>CandidatProfile::factory(), // Assuming you have a CandidateProfileFactory
-            'offre_id'=>Offre::factory(),
-            'utilisateur_id'=>Utilisateur::factory(),
-            'cv' =>"cv/$cvName", // Assuming you have a method to generate a file path
-            'lettre_motivation' => "lettres/$lettreName", // Assuming you have a method to generate a file path
-        ];
-    }
+public function definition(): array
+{
+    // Get an 'interne' with a candidat profile
+    $utilisateur = Utilisateur::where('role', 'interne')
+        ->whereHas('candidat_profile') // make sure it has a profile
+        ->inRandomOrder()
+        ->first();
+
+    $candidat = $utilisateur->candidat_profile;
+
+    $offre = Offre::inRandomOrder()->first() ?? Offre::factory()->create();
+
+    // Generate fake CV and lettre files
+    $cvName = 'cv_' . Str::random(10) . '.pdf';
+    Storage::disk('public')->put("cv/$cvName", 'Fake CV content');
+
+    $lettreName = 'lettre_' . Str::random(10) . '.pdf';
+    Storage::disk('public')->put("lettres/$lettreName", 'Fake lettre content');
+
+    return [
+        'statut' => $this->faker->randomElement(['pending', 'accept', 'refuse']),
+        'applied_at' => $this->faker->dateTime(),
+        'candidat_id' => $candidat->candidat_id,
+        'offre_id' => $offre->offre_id,
+        'utilisateur_id' => $utilisateur->utilisateur_id,
+        'cv' => "cv/$cvName",
+        'lettre_motivation' => "lettres/$lettreName",
+    ];
+}
+
+
 }

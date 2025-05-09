@@ -28,17 +28,18 @@ class UtilisateurFactory extends Factory
         $password = strtolower($letters) . $numbers;
 
         // Role logic: only assign 'admin' to first 2 created users
-        $role = self::$adminCount < 2 ? 'admin' : 'interne';
-        if ($role === 'admin') {
-            self::$adminCount++;
-        }
+
+        // $role = self::$adminCount < 2 ? 'admin' : 'interne';
+        // if ($role === 'admin') {     //!  i changed this if didnt work the seeder i will remove it 
+        //     self::$adminCount++;
+        // }
 
         return [
             'nom' => $this->faker->randomElement(self::$arabicLastNames),
             'prenom' => $this->faker->randomElement(self::$arabicFirstNames),
             'email' => $this->faker->unique()->safeEmail(),
-            'mot_de_passe' => $password,
-            'role' => $role,
+            'password' =>  bcrypt($password), // always hash for login to work
+            'role' => 'interne',
         ];
     }
 }

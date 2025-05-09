@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidatProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -14,8 +15,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/offre',[OffreController::class,'index'])->name('offre');
 // * la route qui afficher one offer /show
 Route::get('/offre/{offre}',[OffreController::class,'show'])->name('offres.show');
-// * la route qui retourne la page de dasborf admin
-Route::get('/dashbord',[UtilisateurController::class,'index'])->name('dasbordAdmin');
+
 //* la roote qui retourne la page offreadmin / index
 Route::get('/offreAdmin',[OffreController::class,'indexAdmin'])->name('offreAdmin');
 //*  la route qui retourner la page des cndidate pour admin /index
@@ -42,7 +42,21 @@ Route::get('/applications/{application}',[ApplicationController::class,'show'])-
 Route::delete('/applications/{application}',[ApplicationController::class,'destroy'])->name('applications.destroy');
 
 
-// ! la route qui retourne la page de login 
-Route::get('/login',function () {
-    return view('auth_form.login');
-})->name('show.login');
+// ! les route de de login 
+Route::get('/login',[AuthController::class,'showLoginForm'])->name('show.login');
+Route::post('/login',[AuthController::class,'login'])->name('login');
+
+// ! la route de registre
+Route::get('/register',[AuthController::class,'showRegisterForm'])->name('show.register');
+Route::post('/register',[AuthController::class,'register'])->name('register');
+
+// ! la route de logout /deconnecter 
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+
+//! dasbord route
+
+// *!la route qui retourne la page de dasborf admin
+Route::get('/dashbord',[UtilisateurController::class,'index'])->middleware(['auth', 'admin'])->name('dasbordAdmin');
+
+Route::get('/dashboard/user', fn() => view('user.dashbord'))->middleware(['auth', 'interne'])->name('dashboard.user');
+

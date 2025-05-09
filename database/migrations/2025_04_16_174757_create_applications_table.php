@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
+        // in the application the cadidat id has be the same if her intern and not the same if her admin like the admin can change the datus but the candidat need toapplied
     /**
      * Reverse the migrations.
      */

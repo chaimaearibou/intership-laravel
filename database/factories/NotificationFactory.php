@@ -16,14 +16,22 @@ class NotificationFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        return [
-            'message' => $this->faker->sentence(),
-            'type' => $this->faker->randomElement(['info', 'warning', 'error']),
-            'lue' => $this->faker->boolean(),
-            'utilisateur_id' => Utilisateur::factory(), // Assuming you have a UtilisateurFactory
-            'application_id' => application::factory(), // Assuming you have an ApplicationFactory
-        ];
+ public function definition(): array
+{
+    // Get a random application (or create one if none exist)
+    $application = \App\Models\application::inRandomOrder()->first();
+
+    if (!$application) {
+        $application = \App\Models\application::factory()->create();
     }
+
+    return [
+        'message' => $this->faker->sentence(),
+        'type' => $this->faker->randomElement(['info', 'warning', 'error']),
+        'lue' => $this->faker->boolean(),
+        'utilisateur_id' => $application->utilisateur_id, // Match the user who made the application
+        'application_id' => $application->application_id,
+    ];
+}
+
 }
