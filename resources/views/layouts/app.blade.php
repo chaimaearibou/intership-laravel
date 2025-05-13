@@ -37,8 +37,12 @@
                     <li class="nav-item"><a class="nav-link link" href="{{ url('/#about') }}">About</a></li>
                     <li class="nav-item"><a class="nav-link link" href="{{ url('/#service') }}">Services</a></li>
                     <li class="nav-item"><a class="nav-link link" href="{{ route('offre') }}">Offre</a></li>
-                    <li class="nav-item"><a class="nav-link link" href="{{ route('dasbordAdmin') }}">admin</a></li>
-                    <li class="nav-item ms-2"><a href="{{ route('show.login') }}" class="btn btn-outline-success">Login</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link link" href="{{ route('dasbordAdmin') }}">admin</a></li> --}}
+                    <li class="nav-item ms-2">
+                        <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">
+                             Login
+                        </a>
+                    </li>
                     <li class="nav-item ms-2"><a href="{{ route('show.register') }}" class="btn btn-success">Register</a></li>
                 </ul>
             </div>
@@ -101,7 +105,17 @@
             </div>
         </div>
     </footer>
-    
+@include('auth.login')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @if($errors->any())
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        @endif
+    });
+</script>
+
 
     @stack('scripts')
 </body>

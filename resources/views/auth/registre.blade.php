@@ -140,11 +140,15 @@
             </div>
         @endif
 
-        <form method="POST" action="/register">
+        <form method="POST" action="{{ route('register') }}">
             @csrf
             <div>
-                <label>Name:</label>
+                <label>First name:</label>
                 <input type="text" name="name" required>
+            </div>
+             <div>
+                <label>last name:</label>
+                <input type="text" name="prenom" required>
             </div>
 
             <div>

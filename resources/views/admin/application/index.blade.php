@@ -19,7 +19,8 @@
 
         {{-- todo: les input pour la filter rehrche --}}
         <form id="filter-form" class="d-flex gap-3 mb-4">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by candidate or offer" class="form-control form-control-candidat" />
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Search by candidate or offer" class="form-control form-control-candidat" />
             <select name="statut" class="form-select form-select-candidat">
                 <option value="">All Status</option>
                 <option value="pending">pending</option>
@@ -31,7 +32,7 @@
         </form>
         {{-- * back to the dashbord btn --}}
         <a href=" {{ route('dasbordAdmin') }}" class='btn btn-secondary backe_btn'><i class="bi bi-arrow-bar-left"></i>
-            
+
         </a>
     </div>
 
@@ -60,34 +61,36 @@
                     <td>
                         <form class="status-form" data-application-id="{{ $application->application_id }}">
                             @csrf
-                            <select name="statut" class="form-select status-select" 
+                            <select name="statut" class="form-select status-select"
                                 style="width: 150px; padding: 0.25rem 0.5rem;"
                                 data-current-status="{{ $application->statut }}">
-                                <option value="pending" {{ $application->statut == 'pending' ? 'selected' : '' }}>pending</option>
-                                <option value="accept" {{ $application->statut == 'accept' ? 'selected' : '' }}>accept</option>
-                                <option value="refuse" {{ $application->statut == 'refuse' ? 'selected' : '' }}>refuse</option>
+                                <option value="pending" {{ $application->statut == 'pending' ? 'selected' : '' }}>
+                                    pending</option>
+                                <option value="accept" {{ $application->statut == 'accept' ? 'selected' : '' }}>accept
+                                </option>
+                                <option value="refuse" {{ $application->statut == 'refuse' ? 'selected' : '' }}>refuse
+                                </option>
                             </select>
                             <span class="badge d-none status-badge"></span>
                         </form>
                     </td>
-                    <td>{{ $application->applied_at}}</td> 
-                    <td>    
+                    <td>{{ $application->applied_at }}</td>
+                    <td>
                         <div class="btn-group">
-                            <a href="{{ asset('storage/' . $application->cv) }}" 
-                               class="btn btn-sm btn-outline-primary"
-                               target="_blank">
+                            <a href="{{ asset('storage/' . $application->cv) }}" class="btn btn-sm btn-outline-primary"
+                                target="_blank">
                                 <i class="bi bi-file-pdf"></i> CV
                             </a>
-                            <a href="{{ asset('storage/' . $application->lettre_motivation) }}" 
-                               class="btn btn-sm btn-outline-secondary"
-                               target="_blank">
+                            <a href="{{ asset('storage/' . $application->lettre_motivation) }}"
+                                class="btn btn-sm btn-outline-secondary" target="_blank">
                                 <i class="bi bi-file-text"></i> Letter
                             </a>
                         </div>
-                    </td>  
+                    </td>
                     <td>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('applications.show',$application ) }}" class="btn-edit btn-view" title="View details">
+                            <a href="{{ route('applications.show', $application) }}" class="btn-edit btn-view"
+                                title="View details">
                                 <i class="bi bi-eye"></i>
                             </a>
                             {{-- ! la btn pour supprimerune applicaion --}}
@@ -98,12 +101,12 @@
                                     data-bs-target="#confirmDeleteModal{{ $application->application_id }}">
                                     <i class="bi bi-trash3"></i>
                                 </button>
-                            </form> 
+                            </form>
                         </div>
-                    </td>                   
+                    </td>
                 </tr>
-                   {{-- ? un verification pour supprimer  --}}
-                   <div class="modal fade" id="confirmDeleteModal{{ $application->application_id}}" tabindex="-1"
+                {{-- ? un verification pour supprimer  --}}
+                <div class="modal fade" id="confirmDeleteModal{{ $application->application_id }}" tabindex="-1"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -117,8 +120,7 @@
                                     cannot be undone.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <form action="{{ route('applications.destroy', $application) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -172,16 +174,19 @@
 </div>
 
 @push('scripts')
-<script>
-    // le code pour updte le status
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize status colors on page load
+    <script>
+        // Extract status color initialization to a reusable function
+function initializeStatusColors() {
     document.querySelectorAll('.status-select').forEach(select => {
-        const initialStatus = select.value;
-        select.classList.add(initialStatus);
+        // Clear existing status classes
+        select.classList.remove('pending', 'accept', 'refuse');
+        // Add current status class
+        select.classList.add(select.value);
     });
+}
 
-    // Handle status changes
+// Extract status change handler to a reusable function
+function setupStatusHandlers() {
     document.querySelectorAll('.status-select').forEach(select => {
         select.addEventListener('change', function(e) {
             const form = this.closest('.status-form');
@@ -189,12 +194,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalStatus = this.dataset.currentStatus;
             const newStatus = this.value;
 
-            // Remove old status class and add new one
-            this.classList.remove(originalStatus);
-            this.classList.add(newStatus);
-
-            // Update stored current status
-            this.dataset.currentStatus = newStatus;
+            // Visual feedback while updating
+            this.disabled = true;
+            const originalColor = this.style.backgroundColor;
+            this.style.backgroundColor = '#f8f9fa';
 
             fetch(`/applications/${applicationId}/status`, {
                 method: 'POST',
@@ -204,22 +207,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({ statut: newStatus })
             })
+            .then(response => {
+                if (!response.ok) throw new Error('Update failed');
+                // Update UI only after successful response
+                this.classList.remove(originalStatus);
+                this.classList.add(newStatus);
+                this.dataset.currentStatus = newStatus;
+            })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error updating status');
-                
-                // Revert UI on error
+                // Revert to original status
                 this.value = originalStatus;
                 this.classList.remove(newStatus);
                 this.classList.add(originalStatus);
-                this.dataset.currentStatus = originalStatus;
+            })
+            .finally(() => {
+                this.disabled = false;
+                this.style.backgroundColor = originalColor;
             });
         });
     });
+}
+
+// Initial setup
+document.addEventListener('DOMContentLoaded', function() {
+    initializeStatusColors();
+    setupStatusHandlers();
 });
 
-
-// le code pour la recherche et filtrage
+// Modified filter code
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('filter-form');
     const tbody = document.getElementById('applications-tbody');
@@ -241,12 +257,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const doc = parser.parseFromString(html, 'text/html');
             const newTbody = doc.querySelector('#applications-tbody');
             tbody.innerHTML = newTbody.innerHTML;
+            
+            // Reinitialize after AJAX update
+            initializeStatusColors();
+            setupStatusHandlers();
         })
         .catch(error => {
             console.error('Error filtering:', error);
         });
     });
 });
-</script>
+    </script>
 @endpush
 @endsection

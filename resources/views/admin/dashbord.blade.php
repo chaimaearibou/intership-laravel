@@ -3,6 +3,8 @@
 @section('content')
 <div class="container mt-4">
     <h1 class="mb-4">Admin Dashboard</h1>
+    {{-- <h2>Welcome, {{ Auth::user()->nom}} </h2> --}}
+
     <div class="export-buttons">
         <a href="#" class="btn btn-export btn-export-applications">
             <i class="bi bi-download"></i>

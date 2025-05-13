@@ -6,6 +6,7 @@ use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
@@ -14,30 +15,49 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)    // la fonction qui verifie si l'utilisateur existe deja ou pas
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ]);
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        $credentials = [
-            'email' => $request->input('email'),
-            'password' => $request->input('password')
-        ];
+    $ip = $request->ip();
 
-        if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
+    if (RateLimiter::tooManyAttempts('login-attempt:' . $ip, 5)) {
+        $error = ['email' => ['Too many login attempts. Please try again in a few minutes.']];
 
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('dasbordAdmin');
-            } else {
-                return redirect()->route('home');   //!  i will change here later when i create user dashbord
-            }
-        }
-
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return $request->ajax()
+            ? response()->json(['errors' => $error], 422)
+            : back()->withErrors($error)->withInput();
     }
+
+    RateLimiter::hit('login-attempt:' . $ip, 60);
+
+    $user = Utilisateur::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        $error = ['email' => ['Email or password is incorrect']];
+
+        return $request->ajax()
+            ? response()->json(['errors' => $error], 422)
+            : back()->withErrors($error)->withInput();
+    }
+
+    Auth::login($user);
+    $request->session()->regenerate();
+    RateLimiter::clear('login-attempt:' . $ip);
+
+    $redirectRoute = $user->role === 'admin'
+        ? route('dasbordAdmin')
+        : route('home'); // or user dashboard if available
+
+    return $request->ajax()
+        ? response()->json(['redirect' => $redirectRoute])
+        : redirect($redirectRoute);
+}
+
+
 
     public function showRegisterForm()   // la fonction  qui retourne la page de registre (registre radi creer nouveau compte)
     {
@@ -50,7 +70,7 @@ class AuthController extends Controller
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'email' => 'required|email|unique:utilisateurs,email',
-            'mot_de_passe' => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:6',
         ]);
 
         $user = Utilisateur::create([

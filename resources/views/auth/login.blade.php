@@ -1,148 +1,110 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #f0f2f5;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #1a73e8;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        label {
-            font-weight: 500;
-            color: #333;
-            font-size: 14px;
-        }
-
-        input {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
-        }
-
-        button {
-            background: #1a73e8;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background: #1557b0;
-        }
-
-        p {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-
-        a {
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            color: #dc3545;
-            background: #f8d7da;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-            border: 1px solid #f5c6cb;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                margin: 20px;
-                padding: 25px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h2>Login</h2>
-
-       @if ($errors->any())
-    <div class="error">
-        @foreach ($errors->all() as $error)
-            <div>{{ $error }}</div>
-        @endforeach
-    </div>
-@endif
-
-
-        <form method="POST" action="{{ route('login') }}">
-            {{-- CSRF Token --}}
-            @csrf
-            <div>
-                <label>Email:</label>
-                <input type="email" name="email" required>
-            </div>  
-
-            <div>
-                <label>Password:</label>
-                <input type="password" name="password" required>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <button type="submit">Login</button>
-        </form>
-
-        <p>Don't have an account? <a href="/register">Register here</a></p>
+            <div class="modal-body"  >
+                <div id="loginError">
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                </div>
+                <form method="POST" action="{{ route('login') }}" id="loginForm">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <p class="mb-0">Don't have an account? 
+                            <a href="{{ route('show.register') }}" class="text-decoration-none">
+                                Register here
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+@push('scripts')
+<script>
+        
+$(document).ready(function () {
+    // Clear errors when the modal is closed
+    $('#loginModal').on('hidden.bs.modal', function () {
+        $('#loginError').html('');
+        $('#loginForm')[0].reset(); // Optional: also reset the form inputs
+    });
+
+    $('#loginForm').on('submit', function (e) {
+        e.preventDefault();
+        let form = $(this);
+        let actionUrl = form.attr('action');
+        let formData = form.serialize();
+
+        $('#loginError').html('');
+
+        $.ajax({
+            type: 'POST',
+            url: actionUrl,
+            data: formData,
+            success: function (response) {
+                window.location.href = response.redirect;
+            },
+            error: function (xhr) {
+                $('#loginError').html('');
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    let errors = xhr.responseJSON.errors;
+                    let errorHtml = '';
+                    let hasMessages = false;
+
+                    errorHtml += '<div class="alert alert-danger"><ul>';
+                    $.each(errors, function (key, messages) {
+                        if (messages.length > 0) {
+                            hasMessages = true;
+                            messages.forEach(function (msg) {
+                                errorHtml += `<li>${msg}</li>`;
+                            });
+                        }
+                    });
+                    errorHtml += '</ul></div>';
+
+                    if (hasMessages) {
+                        $('#loginError').html(errorHtml);
+                    }
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    $('#loginError').html(`<div class="alert alert-danger">${xhr.responseJSON.message}</div>`);
+                } else {
+                    $('#loginError').html('<div class="alert alert-danger">Something went wrong.</div>');
+                }
+            }
+        });
+    });
+});
+
+
+</script>
+@endpush
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
