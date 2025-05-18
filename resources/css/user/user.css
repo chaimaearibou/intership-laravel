@@ -1,0 +1,85 @@
+/* --- Colors (Utilisez votre palette douce) --- */
+:root {
+    --user-primary: #4C9AFF;
+    --user-primary-dark: #3A7DD4;
+    --user-light-bg: #f5f9ff;
+    --user-white: #ffffff;
+    --user-border: #e0e6ed;
+    --user-danger-hover: #dc3546;
+}
+
+/* --- Backgrounds --- */
+.bg-user-primary {
+    background-color:#1C4670 !important;
+}
+
+.bg-user-light {
+    background-color: var(--user-light-bg);
+}
+
+/* --- Navbar utilisateur --- */
+.navbar-user {
+    background-color: var(--user-primary);
+    color: var(--user-white);
+}
+
+.navbar-user .navbar-brand {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar-user .dropdown-toggle {
+    transition: background-color 0.3s ease !important;
+}
+
+.navbar-user .dropdown-menu {
+    border-radius: 0.5rem !important;
+}
+
+/* --- Avatar utilisateur --- */
+.avatar-user {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--user-white);
+    color: #278AB0;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid var(--user-white);
+    transition: transform 0.3s;
+}
+
+.avatar-user:hover {
+    transform: scale(1.05);
+}
+
+/* --- Bouton déconnexion --- */
+.btn-logout-user:hover {
+    background-color: var(--user-danger-hover);
+    color: #fff !important;
+}
+
+/* --- Main content --- */
+.main-user-content {
+    flex: 1 0 auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: #ffffff5e;
+}
+
+/* --- Footer utilisateur --- */
+.footer-user {
+    background-color: var(--user-white);
+    border-top: 1px solid var(--user-border);
+    color: #6c757d;
+}
+
+/* --- Responsive --- */
+@media (max-width: 576px) {
+    .avatar-user {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}

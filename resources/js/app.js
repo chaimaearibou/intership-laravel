@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import 'bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 //test
 // Import all of Bootstrap's JS

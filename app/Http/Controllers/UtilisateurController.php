@@ -8,6 +8,8 @@ use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use App\Models\CandidatProfile;
 use App\Charts\ApplicationsChart;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 
 class UtilisateurController extends Controller
 {
@@ -86,4 +88,36 @@ class UtilisateurController extends Controller
     {
         //
     }
+
+   public function dashboardUser()
+{
+    $user = Auth::user(); 
+    
+    // Récupère les 5 dernières candidatures avec offre liée
+    $applications = Application::with('offre')
+        ->where('candidat_id', $user->candidat_profile->candidat_id)
+        ->latest()
+        ->take(5)
+        ->get();
+
+    // Notifications non lues
+    $notifications = Notification::where('utilisateur_id', $user->utilisateur_id)
+        ->where('lue', false)
+        ->latest()
+        ->get();
+
+    // Compteurs
+    $applicationsCount = Application::where('candidat_id', $user->candidat_profile->candidat_id)->count();
+    $offersViewed = session()->get('offre_views', 0);
+    $unreadNotifications = $notifications->count();
+
+    return view('user.dashbord', compact(
+        'applications', 
+        'notifications',
+        'applicationsCount',
+        'offersViewed',
+        'unreadNotifications'
+    ));
+}
+    
 }

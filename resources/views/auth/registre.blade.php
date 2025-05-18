@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <style>
         * {
             margin: 0;
@@ -130,21 +131,23 @@
     <div class="container">
         <h2>Create Account</h2>
 
-        @if($errors->any())
-            <div class="error-box">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+       <div id="loginError">
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                </div>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div>
                 <label>First name:</label>
-                <input type="text" name="name" required>
+                <input type="text" name="nom" required>
             </div>
              <div>
                 <label>last name:</label>
@@ -158,7 +161,7 @@
 
             <div>
                 <label>Password:</label>
-                <input type="password" name="mot_de_passe" required>
+                <input type="password" name="password" required>
             </div>
 
             <div>
@@ -166,7 +169,7 @@
                 <input type="password" name="password_confirmation" required>
             </div>
 
-            <button type="submit">Register</button>
+            <button class="btn btn-primary">Register</button>
         </form>
 
         <p class="login-link">Already have an account? <a href="{{ route('show.login') }}">Login here</a></p>

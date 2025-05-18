@@ -59,4 +59,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //! dasbord  User route
-Route::get('/dashboard/user', fn() => view('user.dashbord'))->middleware(['auth', 'interne'])->name('dashboard.user');
+Route::get('/dashboard/user',[UtilisateurController::class, 'dashboardUser'])->middleware(['auth', 'interne'])->name('dashboard.user');
+Route::get('/offres/{offre}/apply', [ApplicationController::class, 'create'])->middleware('auth','interne')->name('offres.apply');

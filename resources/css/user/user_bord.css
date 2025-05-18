@@ -1,0 +1,254 @@
+/* Color Scheme */
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --background: #f8fafc;
+    --text-dark: #1e293b;
+    --text-medium: #475569;
+    --text-light: #64748b;
+    --border-color: #e2e8f0;
+}
+
+/* Main Container */
+.dashboard-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* Header Section */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg,#27548A,#7C4585);
+    padding: 2rem;
+    border-radius: 1rem;
+    color: white;
+}
+
+.welcome-title {
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.activity-status {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Notification Bell */
+.notification-bell {
+    position: relative;
+    background: #B5A8D5;
+    padding: 0.7rem;
+    border-radius: 80%;
+    transition: all 0.3s ease;
+}
+
+.notification-bell:hover {
+    background: #B5A8D6;
+}
+
+.notification-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: white !important;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background: rgb(255, 255, 255);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+}
+
+.metric-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.metric-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.metric-value {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.metric-label {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+}
+
+/* Progress Tracker */
+.progress-tracker {
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: width 0.5s ease;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin: 3rem 0;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.action-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    color:#1C4670;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+    border-color: #1C4670;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.action-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Recent Applications */
+.recent-applications {
+    margin-top: 3rem;
+}
+
+.applications-list {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.application-item {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.company-brand {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #278AB0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 1.5rem;
+}
+
+.status-badge {
+    margin-left: auto;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-badge.en-attente {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.status-badge.accepte {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.floating-home-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 45px;
+    height: 45px;
+    background:#27548A !important;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.floating-home-btn:hover {
+    transform: translateY(-1px) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.floating-home-btn i {
+    font-size: 1.5rem;
+}

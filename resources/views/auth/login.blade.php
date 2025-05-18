@@ -48,16 +48,42 @@
 </div>
 @push('scripts')
 <script>
-        
 $(document).ready(function () {
     // Clear errors when the modal is closed
     $('#loginModal').on('hidden.bs.modal', function () {
         $('#loginError').html('');
-        $('#loginForm')[0].reset(); // Optional: also reset the form inputs
+        $('#loginForm')[0].reset();
     });
 
     $('#loginForm').on('submit', function (e) {
         e.preventDefault();
+
+        // Client-side validation
+        let email = $('#email').val().trim();
+        let password = $('#password').val().trim();
+        let errors = [];
+
+        if (email === '') {
+            errors.push("Email is required.");
+        } else if (!validateEmail(email)) {
+            errors.push("Please enter a valid email address.");
+        }
+
+        if (password === '') {
+            errors.push("Password is required.");
+        }
+
+        if (errors.length > 0) {
+            let errorHtml = '<div class="alert alert-danger"><ul>';
+            errors.forEach(function (msg) {
+                errorHtml += `<li>${msg}</li>`;
+            });
+            errorHtml += '</ul></div>';
+            $('#loginError').html(errorHtml);
+            return; // Don't send the request
+        }
+
+        // Proceed with AJAX if no client-side errors
         let form = $(this);
         let actionUrl = form.attr('action');
         let formData = form.serialize();
@@ -75,23 +101,14 @@ $(document).ready(function () {
                 $('#loginError').html('');
                 if (xhr.responseJSON && xhr.responseJSON.errors) {
                     let errors = xhr.responseJSON.errors;
-                    let errorHtml = '';
-                    let hasMessages = false;
-
-                    errorHtml += '<div class="alert alert-danger"><ul>';
+                    let errorHtml = '<div class="alert alert-danger"><ul>';
                     $.each(errors, function (key, messages) {
-                        if (messages.length > 0) {
-                            hasMessages = true;
-                            messages.forEach(function (msg) {
-                                errorHtml += `<li>${msg}</li>`;
-                            });
-                        }
+                        messages.forEach(function (msg) {
+                            errorHtml += `<li>${msg}</li>`;
+                        });
                     });
                     errorHtml += '</ul></div>';
-
-                    if (hasMessages) {
-                        $('#loginError').html(errorHtml);
-                    }
+                    $('#loginError').html(errorHtml);
                 } else if (xhr.responseJSON && xhr.responseJSON.message) {
                     $('#loginError').html(`<div class="alert alert-danger">${xhr.responseJSON.message}</div>`);
                 } else {
@@ -100,11 +117,15 @@ $(document).ready(function () {
             }
         });
     });
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
 });
-
-
 </script>
 @endpush
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

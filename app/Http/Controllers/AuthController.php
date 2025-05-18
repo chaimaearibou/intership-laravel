@@ -6,6 +6,7 @@ use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
@@ -64,26 +65,30 @@ public function login(Request $request)
         return view('auth.registre');
     }
 
-    public function register(Request $request)     // la fonction qui creer un nouveau compte
+    public function register(RegisterRequest $request)     // la fonction qui creer un nouveau compte
     {
-        $data = $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email|unique:utilisateurs,email',
-            'password' => 'required|confirmed|min:6',
-        ]);
+    $data = $request->validated();
 
-        $user = Utilisateur::create([
-            'nom' => $data['nom'],
-            'prenom' => $data['prenom'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'interne', // default role
-        ]);
+    $user = Utilisateur::create([
+        'nom' => $data['nom'],
+        'prenom' => $data['prenom'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role' => 'interne',
+    ]);
+   $user->candidat_profile()->create([
+    // 'utilisateur_id' => $user->utilisateur_id,
+    'nom_candidat' => $user->nom,
+    'prenom_candidat' => $user->prenom,
+    'number'=> '000 000 00',
+    'photo' => 'https://i.pravatar.cc/300?img=' . rand(1, 70),
+    
+]);
+
 
         Auth::login($user);
 
-        return redirect()->route('dashboard.user');
+        return redirect()->route('home');
     }
 
     public function logout(Request $request)    // la fonction qui deconnecter l'utilisateur

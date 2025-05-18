@@ -10,6 +10,9 @@
 @import './admin/candidat.css';
 @import './admin/offreAdmin.css';
 @import './login.css';
+@import './registre.css';
+@import  'user/user.css';
+@import  'user/user_bord.css';
 
 
 
