@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\CandidatProfile;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CandidatProfileRequest;
 
 class CandidatProfileController extends Controller
 {
@@ -43,7 +47,6 @@ class CandidatProfileController extends Controller
     }
 
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -77,15 +80,73 @@ class CandidatProfileController extends Controller
      */
     public function edit(CandidatProfile $candidat_profile)
     {
-        //
+        // Optional: Authorize to make sure only the owner can edit
+        if ($candidat_profile->utilisateur_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('user.edite_profile', compact('candidat_profile'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CandidatProfile $candidat_profile)
+     public function update(CandidatProfileRequest $request, CandidatProfile $candidat_profile)
     {
-        //
+        // Authorization check
+        if ($candidat_profile->utilisateur_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Update profile fields
+        $candidat_profile->nom_candidat = $request->input('nom_candidat');
+        $candidat_profile->prenom_candidat = $request->input('prenom_candidat');
+        $candidat_profile->number = $request->input('number');
+
+        // Handle photo upload if provided in same form (optional)
+        if ($request->hasFile('photo')) {
+            if ($candidat_profile->photo && !Str::startsWith($candidat_profile->photo, ['http://', 'https://'])) {
+                Storage::disk('public')->delete('profile_photos/' . $candidat_profile->photo);
+            }
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('profile_photos', $filename, 'public');
+            $candidat_profile->photo = $filename;
+        }
+
+        $candidat_profile->save();
+
+        // ALSO update Utilisateur table names for consistency
+        $user = Auth::user();
+        $user->nom = $request->input('nom_candidat');
+        $user->prenom = $request->input('prenom_candidat');
+        $user->save();
+
+        return redirect()->route('profile.user')->with('success', 'Profile has been updated.');
+    }
+
+    // la fonction pour update la photo de profile
+    public function updatePhoto(Request $request, CandidatProfile $candidat_profile)
+    {
+        if ($candidat_profile->utilisateur_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'photo' => 'required|image|max:2048',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            if ($candidat_profile->photo && !Str::startsWith($candidat_profile->photo, ['http://', 'https://'])) {
+                Storage::disk('public')->delete('profile_photos/' . $candidat_profile->photo);
+            }
+
+            $photoPath = $request->file('photo')->store('profile_photos', 'public');
+            $candidat_profile->photo = $photoPath;
+            $candidat_profile->save();
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -97,6 +158,9 @@ class CandidatProfileController extends Controller
         return redirect()->route('candidats.index')->with('success', 'Candidat profile deleted successfully');
     }
 
-    
-
+    public function Showprofile()
+    {
+        $user =  Auth::user();;
+        return view('user.profile', compact('user'));;
+    }
 }

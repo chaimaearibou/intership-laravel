@@ -83,9 +83,15 @@
                                class="btn btn-details">
                                <i class="fas fa-search-plus"></i> Details
                             </a>
-                            <button class="btn btn-postuler">
-                                <i class="fas fa-paper-plane"></i> Apply Now
-                            </button>
+                              @auth
+                                <a href="{{ route('offres.apply', $offre->offre_id) }}" class="btn btn-postuler">
+                                    <i class="fas fa-paper-plane"></i> Apply now
+                                </a>
+                             @else
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <i class="fas fa-paper-plane"></i> Apply
+                                </button>
+                             @endauth
                         </div>
                     </div>
                 </article>
@@ -153,7 +159,17 @@ backToTopBtn.addEventListener('click', function (e) {
         behavior: 'smooth'
     });
 });
-                 
+            
+            
+
+// function handleApply(isAuthenticated) {
+//     if (!isAuthenticated) {
+//         const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+//         loginModal.show();
+//     } else {
+//         window.location.href = 'login'; // Or your route
+//     }
+// }
 </script>
 @endpush
 @endsection

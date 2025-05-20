@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offre;
 use App\Models\application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreApplicationRequest;
 
 class ApplicationController extends Controller
 {
@@ -42,17 +44,55 @@ class ApplicationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Offre $offre)
     {
-        //
+        $user = Auth::user();
+
+    return view('user.apply_offre', [
+        'offre' => $offre,
+        'user' => $user
+    ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreApplicationRequest $request)
     {
-        //
+
+    $user = Auth::user();
+    $candidat = $user->candidat_profile;   // candidat_profile the relation name that in the utilisateur model
+
+     // Check if profile is missing
+    if (!$candidat) {
+        return back()->withErrors(['profile_missing' => 'Your candidate profile cannot be found. Please complete it before applying.']);
+    }
+
+    // Vérifie si déjà postulé
+    $alreadyApplied = Application::where('offre_id', $request->offre_id)
+        ->where('candidat_id', $candidat->candidat_id)
+        ->exists();
+
+    if ($alreadyApplied) {
+        return back()->withErrors(['already_applied' => 'You have already applied for this job.'])->withInput();
+    }
+
+    // Stock fichiers
+    $cvPath = $request->file('cv')->store('cvs', 'public');
+    $lettrePath = $request->file('lettre_motivation')->store('lettres', 'public');
+
+    Application::create([
+        'offre_id' => $request->offre_id,
+        'utilisateur_id' => $user->utilisateur_id,
+        'candidat_id' => $candidat->candidat_id,
+        'cv' => $cvPath,
+        'lettre_motivation' => $lettrePath,
+        'statut' => 'en attente',
+        'applied_at' => now(),
+    ]);
+    // dd($user->utilisateur_id, $candidat?->candidat_id, $candidat);
+
+    return redirect()->route('dashboard.user')->with('success', 'Votre candidature a été envoyée.');
     }
 
     /**

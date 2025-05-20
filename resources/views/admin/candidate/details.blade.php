@@ -7,8 +7,18 @@
         <!-- Profile Header -->
         <div class="profile-header">
             <div class="profile-image">
-                <img src="{{ $candidat->photo ?? asset('images/default-photo.jpg') }}" alt="Candidate Photo" class="profile-img">
-
+                {{-- <img src="{{ $candidat->photo ?? asset('images/default-photo.jpg') }}" alt="Candidate Photo" class="profile-img"> --}}
+                @php
+                    use Illuminate\Support\Str;
+                    $photo = $candidat->photo;
+                    // Check if it's an external URL or local path
+                    $photoUrl = Str::startsWith($photo, ['http://', 'https://'])
+                    ? $photo
+                    : ($photo
+                    ? asset('storage/' . $photo)
+                    : asset('images/default-photo.jpg'));
+                @endphp
+                <img src="{{ $photoUrl }}" alt="Candidate Photo" class="profile-img">   
             </div>
             <div class="profile-info">
                 <h2 class="profile-name">

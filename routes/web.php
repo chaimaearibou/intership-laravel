@@ -61,3 +61,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //! dasbord  User route
 Route::get('/dashboard/user',[UtilisateurController::class, 'dashboardUser'])->middleware(['auth', 'interne'])->name('dashboard.user');
 Route::get('/offres/{offre}/apply', [ApplicationController::class, 'create'])->middleware('auth','interne')->name('offres.apply');
+Route::post('/offres', [ApplicationController::class, 'store'])->middleware('auth','interne')->name('applications.store');
+Route::get('/profile',[CandidatProfileController::class, 'Showprofile'])->middleware('auth','interne')->name('profile.user');
+Route::get('profile/edite/{candidat_profile}',[CandidatProfileController::class, 'edit'])->middleware('auth','interne')->name('profile.edite');
+Route::put('/profile/update/{candidat_profile}',[CandidatProfileController::class, 'update'])->middleware('auth','interne')->name('profile.update');
+Route::put('/profile/{candidat_profile}/photo', [CandidatProfileController::class, 'updatePhoto'])->name('profile.photo.update');

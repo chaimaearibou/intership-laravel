@@ -21,6 +21,9 @@ class application extends Model
         'applied_at',
         'cv',
         'lettre_motivation',
+        'offre_id',         
+        'utilisateur_id',    
+        'candidat_id', 
     ];
 
     // *un application peut gerrer par plusieru utilisateur de role admine

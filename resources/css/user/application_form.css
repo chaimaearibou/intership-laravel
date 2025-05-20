@@ -1,0 +1,200 @@
+/* Structure Principale */
+.application-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e3e8f2;
+}
+
+.application-header {
+    color: #1a365d;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.application-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+/* Groupes de Champs */
+.form-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-section-title {
+    color: #1e3a8a;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Éléments de Formulaire */
+.form-label {
+    display: block;
+    color: #1e293b;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem;
+    background: white;
+}
+
+.form-control-custom:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+/* Fichiers Upload */
+.file-upload-box {
+    border: 2px dashed #94a3b8;
+    background: #f8fafc;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.file-upload-box:hover {
+    border-color: #3b82f6;
+    background: #f0f4ff;
+}
+
+/* Bouton de Soumission */
+.btn-submit {
+    background: #3b82f6;
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn-submit:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+}
+
+.btn-submit i {
+    font-size: 1.1rem;
+}
+
+/* Éléments Optionnels */
+.optional-tag {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-left: 0.5rem;
+}
+
+/* Validation */
+.alert-validation {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+    margin-bottom: 2rem;
+}
+
+.alert-validation ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .application-container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+    
+    .application-header {
+        font-size: 1.8rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Back Button Styling */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3b82f6;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.back-button:hover {
+    background: #f0f4ff;
+    transform: translateX(-3px);
+}
+
+.back-button i {
+    font-size: 0.9rem;
+}
+
+/* Form Footer */
+.form-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .form-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}

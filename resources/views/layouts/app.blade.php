@@ -52,7 +52,7 @@
             
             <!-- User Avatar with Fallback -->
             <div class="position-relative me-2">
-                 @php
+            @php
                 $profile = Auth::user()->candidat_profile;
             @endphp
 
@@ -60,7 +60,7 @@
                 @php
                     // Check if the photo is a URL (fake API) or a stored photo
                     $isExternal = Str::startsWith($profile->photo, ['http://', 'https://']);
-                    $photoUrl = $isExternal ? $profile->photo : asset('storage/profile_photos/' . $profile->photo);
+                    $photoUrl = $isExternal ? $profile->photo : asset('storage/' . $profile->photo);
                 @endphp
 
                 <img src="{{ $photoUrl }}" 
@@ -83,7 +83,6 @@
         
         <!-- Dropdown Menu -->
         <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
-            <!-- Header -->
             <li class="dropdown-header px-3 py-2">
                 <div class="fw-semibold">Account</div>
                 <div class="text-truncate small text-muted">{{ Auth::user()->email }}</div>
@@ -103,9 +102,9 @@
             
             <li>
                 <a class="dropdown-item d-flex align-items-center px-3 py-2" 
-                href="">
+                href="{{ route('profile.user') }}">
                     <i class="fas fa-user-cog fa-fw me-2 text-success"></i>
-                    Profile Settings
+                    My profile
                 </a>
             </li>
             
@@ -125,7 +124,7 @@
         </ul>
     </li>
     @else
-    <!-- Guest Links -->
+    <!-- form Links -->
             <li class="nav-item ms-2">
                 <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Login

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Tableau de bord Utilisateur')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -16,7 +17,7 @@
     <nav class="navbar-user navbar navbar-expand-lg bg-user-primary shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-semibold text-white" href="{{ route('dashboard.user') }}">
-                <i class="bi bi-person-badge me-2"></i>StagiaireApp
+                <i class="bi bi-person-badge me-2"></i>App Intern
             </a>
             
 
@@ -29,7 +30,28 @@
                     <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center text-white gap-2"
                             type="button" data-bs-toggle="dropdown">
                         <div class="avatar-user d-flex justify-content-center align-items-center">
-                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                         @php
+                            $profile = Auth::user()->candidat_profile;
+                         @endphp
+
+                         @if($profile && $profile->photo)
+                            @php
+                                // Check if the photo is a URL (fake API) or a stored photo
+                                $isExternal = Str::startsWith($profile->photo, ['http://', 'https://']);
+                                $photoUrl = $isExternal ? $profile->photo : asset('storage/' . $profile->photo);
+                            @endphp
+
+                            <img src="{{ $photoUrl }}" 
+                                class="rounded-circle border border-2 border-primary profile-avatar"
+                                width="38px" 
+                                height="38px" 
+                                style="object-fit: cover; object-position: center;">
+                         @else
+                            <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 38px; height: 38px;">
+                                {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                            </div>
+                        @endif
                         </div>
                         <span class="d-none d-lg-inline">
                             {{ Auth::user()->prenom }} {{ Auth::user()->nom }}
@@ -37,10 +59,17 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-person-circle me-2"></i>Mon profil
+                            <a class="dropdown-item" href="{{ route('profile.user') }}">
+                                <i class="bi bi-person-circle me-2"></i>My profile
                             </a>
                         </li>
+                         <li>
+                            <a class="dropdown-item d-flex align-items-center px-3 py-2" 
+                            href="{{ route('dashboard.user') }}">
+                                <i class="fas fa-home fa-fw me-2 text-primary"></i>
+                                Dashboard
+                            </a>
+                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

@@ -3,6 +3,16 @@
 
 @section('content')
 <div class="dashboard-container">
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 70px">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle me-2"></i>
+                {{ session('success') }}
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
       <!-- Floating Home Button -->
     <a href="{{ route('home') }}" class="floating-home-btn d-flex">
         <i class="bi bi-house-door justify-center align-content-center" ></i>
@@ -99,6 +109,7 @@
                 <div class="application-info">
                     <h4>{{ $application->offre->titre }}</h4>
                     <p>{{ $application->offre->titre }}</p>
+                    <small>Applied at : {{ $application->applied_at }}</small>
                 </div>
                 <span class="status-badge {{ $application->statut }}">{{ $application->statut }}</span>
             </div>

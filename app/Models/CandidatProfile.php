@@ -18,7 +18,7 @@ class CandidatProfile extends Model
         'candidat_id',
         'nom_candidat',
         'prenom_candidat',
-        'number',
+        'number',   
         'statut',
         'photo'
     ];
