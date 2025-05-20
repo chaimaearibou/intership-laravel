@@ -80,7 +80,7 @@ public function login(Request $request)
     // 'utilisateur_id' => $user->utilisateur_id,
     'nom_candidat' => $user->nom,
     'prenom_candidat' => $user->prenom,
-    'number'=> '+212'.$data['number'],
+    'number'=> '+212 000 000 000',
     'photo' => 'https://i.pravatar.cc/300?img=' . rand(1, 70),
     
 ]);

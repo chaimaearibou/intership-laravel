@@ -131,7 +131,7 @@
                 </a>
             </li>
             <li class="nav-item ms-2">
-                <a href="{{ route('show.register') }}" class="btn btn-success">
+                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">
                     Register
                 </a>
             </li>
@@ -194,7 +194,9 @@
         </div>
     </div>
 </footer>
+
 @include('auth.login')
+@include('auth.registre')
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
