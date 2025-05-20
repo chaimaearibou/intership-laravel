@@ -6,15 +6,15 @@
     {{-- <h2>Welcome, {{ Auth::user()->nom}} </h2> --}}
 
     <div class="export-buttons">
-        <a href="#" class="btn btn-export btn-export-applications">
+        <a href="{{ route('export.applications') }}" class="btn btn-export btn-export-applications">
             <i class="bi bi-download"></i>
             Export Applications
         </a>
-        <a href="#" class="btn btn-export btn-export-offers">
+        <a href="{{ route('export.offres') }}" class="btn btn-export btn-export-offers">
             <i class="bi bi-download"></i>
             Export Offers
         </a>
-        <a href="#" class="btn btn-export btn-export-candidates">
+        <a href="{{ route('export.candidats') }}" class="btn btn-export btn-export-candidates">
             <i class="bi bi-download"></i>
             Export Candidates
         </a>

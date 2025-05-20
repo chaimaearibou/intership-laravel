@@ -1,14 +1,18 @@
 <?php
 
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CandidatProfileController;
+use App\Exports\OffresExport;
+use App\Models\CandidatProfile;
+use App\Exports\CandidatsExport;
+use App\Exports\ApplicationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\UtilisateurController;
-use App\Models\CandidatProfile;
+use App\Http\Controllers\CandidatProfileController;
 // * la route de page home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // * la route qui  afficher tous les offres
@@ -66,3 +70,17 @@ Route::get('/profile',[CandidatProfileController::class, 'Showprofile'])->middle
 Route::get('profile/edite/{candidat_profile}',[CandidatProfileController::class, 'edit'])->middleware('auth','interne')->name('profile.edite');
 Route::put('/profile/update/{candidat_profile}',[CandidatProfileController::class, 'update'])->middleware('auth','interne')->name('profile.update');
 Route::put('/profile/{candidat_profile}/photo', [CandidatProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+
+
+// ! les route d'export
+Route::get('/export/applications', function () {
+    return Excel::download(new ApplicationsExport, 'applications.xlsx');
+})->name('export.applications');
+
+Route::get('/export/offres', function () {
+    return Excel::download(new OffresExport, 'offers.xlsx');
+})->name('export.offres');
+
+Route::get('/export/candidats', function () {
+    return Excel::download(new CandidatsExport, 'candidates.xlsx');
+})->name('export.candidats');
