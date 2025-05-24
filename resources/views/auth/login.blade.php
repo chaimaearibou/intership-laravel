@@ -112,11 +112,11 @@
                         } else if (xhr.responseJSON && xhr.responseJSON.message) {
                             $('#loginError').html(
                                 `<div class="alert alert-danger">${xhr.responseJSON.message}</div>`
-                                );
+                            );
                         } else {
                             $('#loginError').html(
                                 '<div class="alert alert-danger">Something went wrong.</div>'
-                                );
+                            );
                         }
                     }
                 });

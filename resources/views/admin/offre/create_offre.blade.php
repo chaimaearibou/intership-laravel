@@ -5,7 +5,7 @@
 <div class="container">
     <!-- Header Section -->
     <div class="admin-form-header d-flex justify-content-between align-items-center ">
-        <h2 class="page-title" >Create New Offer</h2>
+        <h2 class="page-title">Create New Offer</h2>
         <a href="{{ route('offreAdmin') }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left-short"></i> Back to List
         </a>

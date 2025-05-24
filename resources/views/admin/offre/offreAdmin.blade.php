@@ -46,12 +46,12 @@
                                 @method('DELETE')
                                 {{-- ! la button pour supprimre un offre --}}
                                 <button type="button" class="btn-delete btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#confirmDeleteModal{{ $offre->offre_id}}">
+                                    data-bs-target="#confirmDeleteModal{{ $offre->offre_id }}">
                                     <i class="bi bi-trash3"></i>
                                 </button>
                             </form>
                             {{-- ? un verification pour supprimer  --}}
-                            <div class="modal fade" id="confirmDeleteModal{{ $offre->offre_id}}" tabindex="-1"
+                            <div class="modal fade" id="confirmDeleteModal{{ $offre->offre_id }}" tabindex="-1"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">

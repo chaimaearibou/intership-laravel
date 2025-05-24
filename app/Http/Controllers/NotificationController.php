@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -12,7 +13,14 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.user', [
+            'notifications' => Auth::Utilisateur()->notifications()
+                ->latest()
+                ->take(5)
+                ->get(),
+            'unreadNotifications' => Auth::Utilisateur()->unreadNotifications()->count(),
+
+        ]);
     }
 
     /**
@@ -61,5 +69,31 @@ class NotificationController extends Controller
     public function destroy(Notification $notification)
     {
         //
+    }
+
+    // Marquer une notification comme lue
+    public function markAsRead(Notification $notification)
+    {
+        $notification->update(['lue' => true]); // More Eloquent way
+
+        return redirect()->back();
+    }
+
+    public function getNotifications()
+    {
+        $adminId = auth::user()->utilisateur_id;
+        $notifications = Notification::where('utilisateur_id', $adminId)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        $unreadCount = Notification::where('utilisateur_id', $adminId)
+            ->where('lue', false)
+            ->count();
+
+        return response()->json([
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
+        ]);
     }
 }

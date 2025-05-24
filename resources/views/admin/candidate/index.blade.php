@@ -32,7 +32,7 @@
         </form>
         {{-- * back to the dashbord btn --}}
         <a href=" {{ route('dasbordAdmin') }}" class='btn btn-secondary backe_btn'><i class="bi bi-arrow-bar-left"></i>
-            
+
         </a>
     </div>
 
@@ -155,7 +155,7 @@
 
 
 
-    
+
 
 
 

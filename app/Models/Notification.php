@@ -14,16 +14,22 @@ class Notification extends Model
     public $incrementing = true;
 
     protected $fillable = [
-       'notification_id',
+        'notification_id',
         'message',
         'type',
         'lue',
+        'utilisateur_id',
+        'application_id',
     ];
 
     // un utilisateur recevoir plusieur notification
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(Utilisateur::class, 'utilisateur_id', 'id');
+        return $this->belongsTo(Utilisateur::class,'utilisateur_id', 'utilisateur_id');
     }
-    
+    public function getRouteKeyName()
+{
+    return 'notification_id';
+}
+
 }

@@ -16,47 +16,47 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
-    ]);
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-    $ip = $request->ip();
+        $ip = $request->ip();
 
-    if (RateLimiter::tooManyAttempts('login-attempt:' . $ip, 5)) {
-        $error = ['email' => ['Too many login attempts. Please try again in a few minutes.']];
+        if (RateLimiter::tooManyAttempts('login-attempt:' . $ip, 5)) {
+            $error = ['email' => ['Too many login attempts. Please try again in a few minutes.']];
+
+            return $request->ajax()
+                ? response()->json(['errors' => $error], 422)
+                : back()->withErrors($error)->withInput();
+        }
+
+        RateLimiter::hit('login-attempt:' . $ip, 60);
+
+        $user = Utilisateur::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            $error = ['email' => ['Email or password is incorrect']];
+
+            return $request->ajax()
+                ? response()->json(['errors' => $error], 422)
+                : back()->withErrors($error)->withInput();
+        }
+
+        Auth::login($user);
+        $request->session()->regenerate();
+        RateLimiter::clear('login-attempt:' . $ip);
+
+        $redirectRoute = $user->role === 'admin'
+            ? route('dasbordAdmin')
+            : route('home'); // or user dashboard if available
 
         return $request->ajax()
-            ? response()->json(['errors' => $error], 422)
-            : back()->withErrors($error)->withInput();
+            ? response()->json(['redirect' => $redirectRoute])
+            : redirect($redirectRoute);
     }
-
-    RateLimiter::hit('login-attempt:' . $ip, 60);
-
-    $user = Utilisateur::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        $error = ['email' => ['Email or password is incorrect']];
-
-        return $request->ajax()
-            ? response()->json(['errors' => $error], 422)
-            : back()->withErrors($error)->withInput();
-    }
-
-    Auth::login($user);
-    $request->session()->regenerate();
-    RateLimiter::clear('login-attempt:' . $ip);
-
-    $redirectRoute = $user->role === 'admin'
-        ? route('dasbordAdmin')
-        : route('home'); // or user dashboard if available
-
-    return $request->ajax()
-        ? response()->json(['redirect' => $redirectRoute])
-        : redirect($redirectRoute);
-}
 
 
 
@@ -67,23 +67,23 @@ public function login(Request $request)
 
     public function register(RegisterRequest $request)     // la fonction qui creer un nouveau compte
     {
-    $data = $request->validated();
+        $data = $request->validated();
 
-    $user = Utilisateur::create([
-        'nom' => $data['nom'],
-        'prenom' => $data['prenom'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-        'role' => 'interne',
-    ]);
-   $user->candidat_profile()->create([
-    // 'utilisateur_id' => $user->utilisateur_id,
-    'nom_candidat' => $user->nom,
-    'prenom_candidat' => $user->prenom,
-    'number'=> '+212 000 000 000',
-    'photo' => 'https://i.pravatar.cc/300?img=' . rand(1, 70),
-    
-]);
+        $user = Utilisateur::create([
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 'interne',
+        ]);
+        $user->candidat_profile()->create([
+            // 'utilisateur_id' => $user->utilisateur_id,
+            'nom_candidat' => $user->nom,
+            'prenom_candidat' => $user->prenom,
+            'number' => '+212 000 000 000',
+            'photo' => 'https://i.pravatar.cc/300?img=' . rand(1, 70),
+
+        ]);
 
 
         Auth::login($user);

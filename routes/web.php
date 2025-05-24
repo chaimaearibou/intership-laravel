@@ -12,6 +12,7 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\UtilisateurController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CandidatProfileController;
 // * la route de page home
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,7 +49,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // * la route pour application destroy 
     Route::delete('/applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
     // * la route pour modifier le status de l'application
-    Route::post('/applications/{id}/status', [ApplicationController::class, 'updateStatus']) ->name('applications.status');
+    Route::post('/applications/{id}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
 });
 
 // ! les route de de login 
@@ -63,12 +64,12 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //! dasbord  User route
-Route::get('/dashboard/user',[UtilisateurController::class, 'dashboardUser'])->middleware(['auth', 'interne'])->name('dashboard.user');
-Route::get('/offres/{offre}/apply', [ApplicationController::class, 'create'])->middleware('auth','interne')->name('offres.apply');
-Route::post('/offres', [ApplicationController::class, 'store'])->middleware('auth','interne')->name('applications.store');
-Route::get('/profile',[CandidatProfileController::class, 'Showprofile'])->middleware('auth','interne')->name('profile.user');
-Route::get('profile/edite/{candidat_profile}',[CandidatProfileController::class, 'edit'])->middleware('auth','interne')->name('profile.edite');
-Route::put('/profile/update/{candidat_profile}',[CandidatProfileController::class, 'update'])->middleware('auth','interne')->name('profile.update');
+Route::get('/dashboard/user', [UtilisateurController::class, 'dashboardUser'])->middleware(['auth', 'interne'])->name('dashboard.user');
+Route::get('/offres/{offre}/apply', [ApplicationController::class, 'create'])->middleware('auth', 'interne')->name('offres.apply');
+Route::post('/offres', [ApplicationController::class, 'store'])->middleware('auth', 'interne')->name('applications.store');
+Route::get('/profile', [CandidatProfileController::class, 'Showprofile'])->middleware('auth', 'interne')->name('profile.user');
+Route::get('profile/edite/{candidat_profile}', [CandidatProfileController::class, 'edit'])->middleware('auth', 'interne')->name('profile.edite');
+Route::put('/profile/update/{candidat_profile}', [CandidatProfileController::class, 'update'])->middleware('auth', 'interne')->name('profile.update');
 Route::put('/profile/{candidat_profile}/photo', [CandidatProfileController::class, 'updatePhoto'])->name('profile.photo.update');
 
 
@@ -84,3 +85,11 @@ Route::get('/export/offres', function () {
 Route::get('/export/candidats', function () {
     return Excel::download(new CandidatsExport, 'candidates.xlsx');
 })->name('export.candidats');
+
+//! la route de la notification 
+
+Route::middleware(['auth'])->group(function () {
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/admin/notifications', [NotificationController::class, 'getNotifications']);
+
+});

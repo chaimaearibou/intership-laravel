@@ -176,97 +176,100 @@
 @push('scripts')
     <script>
         // Extract status color initialization to a reusable function
-function initializeStatusColors() {
-    document.querySelectorAll('.status-select').forEach(select => {
-        // Clear existing status classes
-        select.classList.remove('pending', 'accept', 'refuse');
-        // Add current status class
-        select.classList.add(select.value);
-    });
-}
-
-// Extract status change handler to a reusable function
-function setupStatusHandlers() {
-    document.querySelectorAll('.status-select').forEach(select => {
-        select.addEventListener('change', function(e) {
-            const form = this.closest('.status-form');
-            const applicationId = form.dataset.applicationId;
-            const originalStatus = this.dataset.currentStatus;
-            const newStatus = this.value;
-
-            // Visual feedback while updating
-            this.disabled = true;
-            const originalColor = this.style.backgroundColor;
-            this.style.backgroundColor = '#f8f9fa';
-
-            fetch(`/applications/${applicationId}/status`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ statut: newStatus })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Update failed');
-                // Update UI only after successful response
-                this.classList.remove(originalStatus);
-                this.classList.add(newStatus);
-                this.dataset.currentStatus = newStatus;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Revert to original status
-                this.value = originalStatus;
-                this.classList.remove(newStatus);
-                this.classList.add(originalStatus);
-            })
-            .finally(() => {
-                this.disabled = false;
-                this.style.backgroundColor = originalColor;
+        function initializeStatusColors() {
+            document.querySelectorAll('.status-select').forEach(select => {
+                // Clear existing status classes
+                select.classList.remove('pending', 'accept', 'refuse');
+                // Add current status class
+                select.classList.add(select.value);
             });
-        });
-    });
-}
+        }
 
-// Initial setup
-document.addEventListener('DOMContentLoaded', function() {
-    initializeStatusColors();
-    setupStatusHandlers();
-});
+        // Extract status change handler to a reusable function
+        function setupStatusHandlers() {
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function(e) {
+                    const form = this.closest('.status-form');
+                    const applicationId = form.dataset.applicationId;
+                    const originalStatus = this.dataset.currentStatus;
+                    const newStatus = this.value;
 
-// Modified filter code
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('filter-form');
-    const tbody = document.getElementById('applications-tbody');
+                    // Visual feedback while updating
+                    this.disabled = true;
+                    const originalColor = this.style.backgroundColor;
+                    this.style.backgroundColor = '#f8f9fa';
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+                    fetch(`/applications/${applicationId}/status`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            },
+                            body: JSON.stringify({
+                                statut: newStatus
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Update failed');
+                            // Update UI only after successful response
+                            this.classList.remove(originalStatus);
+                            this.classList.add(newStatus);
+                            this.dataset.currentStatus = newStatus;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Revert to original status
+                            this.value = originalStatus;
+                            this.classList.remove(newStatus);
+                            this.classList.add(originalStatus);
+                        })
+                        .finally(() => {
+                            this.disabled = false;
+                            this.style.backgroundColor = originalColor;
+                        });
+                });
+            });
+        }
 
-        const search = document.querySelector('input[name="search"]').value;
-        const statut = document.querySelector('select[name="statut"]').value;
-
-        fetch(`{{ route('application.index') }}?search=${search}&statut=${statut}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newTbody = doc.querySelector('#applications-tbody');
-            tbody.innerHTML = newTbody.innerHTML;
-            
-            // Reinitialize after AJAX update
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', function() {
             initializeStatusColors();
             setupStatusHandlers();
-        })
-        .catch(error => {
-            console.error('Error filtering:', error);
         });
-    });
-});
+
+        // Modified filter code
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('filter-form');
+            const tbody = document.getElementById('applications-tbody');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const search = document.querySelector('input[name="search"]').value;
+                const statut = document.querySelector('select[name="statut"]').value;
+
+                fetch(`{{ route('application.index') }}?search=${search}&statut=${statut}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newTbody = doc.querySelector('#applications-tbody');
+                        tbody.innerHTML = newTbody.innerHTML;
+
+                        // Reinitialize after AJAX update
+                        initializeStatusColors();
+                        setupStatusHandlers();
+                    })
+                    .catch(error => {
+                        console.error('Error filtering:', error);
+                    });
+            });
+        });
     </script>
 @endpush
 @endsection

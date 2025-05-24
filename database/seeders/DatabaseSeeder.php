@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-  // ✅ Create fixed admin
+  //  Create fixed admin
         $admin = Utilisateur::create([
             'nom' => 'Admin',
             'prenom' => 'admin',
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // ✅ Create fixed interne
+        //  Create fixed interne
         $interne = Utilisateur::create([
             'nom' => 'Interne',
             'prenom' => 'User',

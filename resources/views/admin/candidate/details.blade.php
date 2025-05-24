@@ -12,13 +12,13 @@
                     use Illuminate\Support\Str;
                     $photo = $candidat->photo;
                     // Check if it's an external URL or local path
-                    $photoUrl = Str::startsWith($photo, ['http://', 'https://'])
-                    ? $photo
-                    : ($photo
-                    ? asset('storage/' . $photo)
-                    : asset('images/default-photo.jpg'));
+$photoUrl = Str::startsWith($photo, ['http://', 'https://'])
+    ? $photo
+    : ($photo
+        ? asset('storage/' . $photo)
+        : asset('images/default-photo.jpg'));
                 @endphp
-                <img src="{{ $photoUrl }}" alt="Candidate Photo" class="profile-img">   
+                <img src="{{ $photoUrl }}" alt="Candidate Photo" class="profile-img">
             </div>
             <div class="profile-info">
                 <h2 class="profile-name">
@@ -39,19 +39,19 @@
                         <span class="detail-label">Phone Number:</span>
                         <span class="detail-value">{{ $candidat->number }}</span>
                     </div>
-                    
+
                     <div class="detail-item">
                         <span class="detail-label">User Account:</span>
                         <span class="detail-value">{{ $candidat->utilisateur->email }}</span>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="detail-item">
                         <span class="detail-label">Candidate ID:</span>
                         <span class="detail-value">#{{ $candidat->candidat_id }}</span>
                     </div>
-                    
+
                     <div class="detail-item">
                         <span class="detail-label">Registration Date:</span>
                         <span class="detail-value">{{ $candidat->created_at->format('d/m/Y') }}</span>

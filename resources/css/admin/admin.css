@@ -190,3 +190,126 @@
 }
 
 
+
+/* Notification Bell Container */
+.admin-notifications {
+    position: relative;
+    margin-right: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+/* Bell Icon */
+.admin-notifications .fas.fa-bell {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover Effects */
+.admin-notifications:hover {
+    transform: translateY(-2px);
+}
+
+.admin-notifications:hover .fas.fa-bell {
+    color: #1F7D53;
+    transform: rotate(-15deg);
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 2px solid #fff;
+    animation: pulse 1.5s infinite;
+}
+
+/* Dropdown Menu */
+#notif-dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    width: 300px;
+    right: -20px;
+    top: 40px;
+}
+
+/* Show Dropdown */
+#notification-bell:hover #notif-dropdown,
+#notif-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Notification List */
+#notif-list {
+    padding: 8px 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Individual Notification Item */
+#notif-list li {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+#notif-list li:last-child {
+    border-bottom: none;
+}
+
+#notif-list li:hover {
+    background: #f8f9fa;
+}
+
+#notif-list li.unread {
+    background: #f8fafd;
+    position: relative;
+}
+
+#notif-list li.unread::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #1F7D53;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #notif-dropdown {
+        width: 90vw;
+        right: -50%;
+    }
+    
+    .admin-notifications {
+        margin-right: 1rem;
+    }
+}

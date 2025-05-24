@@ -16,11 +16,11 @@
                         use Illuminate\Support\Str;
                         $photo = $application->candidat->photo;
                         // Check if it's an external URL or local path
-                        $photoUrl = Str::startsWith($photo, ['http://', 'https://'])
-                        ? $photo
-                        : ($photo
-                        ? asset('storage/' . $photo)
-                        : asset('images/default-photo.jpg'));
+$photoUrl = Str::startsWith($photo, ['http://', 'https://'])
+    ? $photo
+    : ($photo
+        ? asset('storage/' . $photo)
+        : asset('images/default-photo.jpg'));
                     @endphp
                     <img src="{{ $photoUrl }}" alt="Candidate Photo" class="profile-img">
                     <div>
